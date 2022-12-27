@@ -16,6 +16,7 @@ void PrepareSecretWord(string secretWord, vector<pair<char, bool>> &outputVector
 void UpdateSecretWord(string guess, vector<pair<char, bool>> &outputVector);
 bool CheckVictoryCondition(vector<pair<char, bool>> &outputVector);
 bool ExistInSecretWord(string guess, string secretWord);
+int SortingRandomValue(vector<string> &stringVector);
 bool CheckDefeatCondition(vector<char> &errorVector);
 void InformError(string errorString);
 string ReadFile(ifstream &inputFile);
@@ -155,7 +156,7 @@ void InformError(string errorString){
 
 string ReadFile(ifstream &inputFile){
     vector<string> possibleWords;
-    size_t availableWords = 0;
+    string str;
 
     inputFile.open("words.txt");
 
@@ -165,17 +166,17 @@ string ReadFile(ifstream &inputFile){
         exit(-1);
     }
 
-    inputFile >> availableWords;
-
-    for (size_t i = 0; i < availableWords; i++){
-        string lastWord = "";
-        inputFile >> lastWord;
-        possibleWords.push_back(lastWord);
+    while (std::getline(inputFile, str))
+    {
+        if(str.size() > 0)
+            possibleWords.push_back(str);
     }
-
     inputFile.close();
-    srand ( time(NULL) );
-    int r = int(rand()) % availableWords + 1;
 
-    return possibleWords.at(r);
+    return possibleWords.at(SortingRandomValue(possibleWords));
+}
+
+int SortingRandomValue(vector<string> &stringVector){
+    srand ( time(NULL) );
+    return int(rand()) % stringVector.size() + 1;
 }

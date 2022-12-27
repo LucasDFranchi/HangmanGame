@@ -154,9 +154,16 @@ void InformError(string errorString){
 }
 
 string ReadFile(ifstream &inputFile){
-    inputFile.open("words.txt");
     vector<string> possibleWords;
     size_t availableWords = 0;
+
+    inputFile.open("words.txt");
+
+    if(!inputFile.is_open()){
+        cout << "Arquivo de configuraçao nao encontrado!" << endl;
+        cout << "Abortanto operaçao!" << endl;
+        exit(-1);
+    }
 
     inputFile >> availableWords;
 
@@ -165,6 +172,8 @@ string ReadFile(ifstream &inputFile){
         inputFile >> lastWord;
         possibleWords.push_back(lastWord);
     }
+
+    inputFile.close();
     srand ( time(NULL) );
     int r = int(rand()) % availableWords + 1;
 

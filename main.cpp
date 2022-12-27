@@ -28,16 +28,11 @@ int main(){
     vector<char> wrongGuesses;
     ifstream fileStream;
 
-    cout << "*************************" << endl;
-    cout << "***** Jogo da Forca *****" << endl;
-    cout << "*************************" << endl << endl;
-
     string secretWord = ReadFile(fileStream);
 
     PrepareSecretWord(secretWord, outputVector);  
 
     while(true){
-
 
         UpdateDisplay(guess, outputVector, wrongGuesses);
                 
@@ -129,6 +124,10 @@ bool CheckDefeatCondition(vector<char> &errorVector){
 void UpdateDisplay(string guess, vector<pair<char, bool>> &outputVector, vector<char> &errorVector){
     system("clear");
 
+    cout << "*************************" << endl;
+    cout << "***** Jogo da Forca *****" << endl;
+    cout << "*************************" << endl << endl;
+
     for (size_t i = 0; i < outputVector.size(); i++){
         if (outputVector.at(i).second){
             cout << " " << outputVector.at(i).first << " ";
@@ -167,7 +166,7 @@ string ReadFile(ifstream &inputFile){
         possibleWords.push_back(lastWord);
     }
     srand ( time(NULL) );
-    int r = rand() % availableWords + 1;
+    int r = int(rand()) % availableWords + 1;
 
     return possibleWords.at(r);
 }

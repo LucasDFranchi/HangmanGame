@@ -1,9 +1,12 @@
 #include <iostream>
+#include <fstream>
 #include <string>
-#include <regex>
 #include <vector>
+#include <regex>
+#include <cstdlib>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 
 using namespace std;
 
@@ -15,6 +18,7 @@ bool CheckVictoryCondition(vector<pair<char, bool>> &outputVector);
 bool ExistInSecretWord(string guess, string secretWord);
 bool CheckDefeatCondition(vector<char> &errorVector);
 void InformError(string errorString);
+string ReadFile(ifstream &inputFile);
 bool ValidGuess(string guess);
 
 /* Main Code */
@@ -22,12 +26,15 @@ int main(){
     string guess = "";
     vector<pair<char, bool>> outputVector;
     vector<char> wrongGuesses;
+    ifstream fileStream;
 
     cout << "*************************" << endl;
     cout << "***** Jogo da Forca *****" << endl;
     cout << "*************************" << endl << endl;
 
-    PrepareSecretWord("Lucas", outputVector);  
+    string secretWord = ReadFile(fileStream);
+
+    PrepareSecretWord(secretWord, outputVector);  
 
     while(true){
 
@@ -39,7 +46,7 @@ int main(){
         if (!ValidGuess(guess)){
             InformError("Informe uma letra valida [a-z][A-Z]");
         }
-        else if (!ExistInSecretWord(guess, "Lucas")){
+        else if (!ExistInSecretWord(guess, secretWord)){
             InformError("A letra informada nao existe na palavra");
             wrongGuesses.push_back(*guess.c_str());
         }
@@ -145,4 +152,22 @@ void InformError(string errorString){
     system("clear");
     cout << errorString << endl;
     sleep(1);
+}
+
+string ReadFile(ifstream &inputFile){
+    inputFile.open("words.txt");
+    vector<string> possibleWords;
+    size_t availableWords = 0;
+
+    inputFile >> availableWords;
+
+    for (size_t i = 0; i < availableWords; i++){
+        string lastWord = "";
+        inputFile >> lastWord;
+        possibleWords.push_back(lastWord);
+    }
+    srand ( time(NULL) );
+    int r = rand() % availableWords + 1;
+
+    return possibleWords.at(r);
 }

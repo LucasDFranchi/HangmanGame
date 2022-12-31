@@ -23,3 +23,4 @@ bool CheckDefeatCondition(vector<char> &errorVector);
 void InformError(string errorString);
 string ReadFile(ifstream &inputFile);
 bool ValidGuess(string guess);
+string ToLower(string str);

@@ -17,12 +17,12 @@ int main(){
 
         UpdateDisplay(guess, outputVector, wrongGuesses);
                 
-        cin >> guess;        
+        cin >> guess; 
 
         if (!ValidGuess(guess)){
             InformError("Informe uma letra valida [a-z][A-Z]");
         }
-        else if (!ExistInSecretWord(guess, secretWord)){
+        else if (!ExistInSecretWord(ToLower(guess), ToLower(secretWord))){
             InformError("A letra informada nao existe na palavra");
             wrongGuesses.push_back(*guess.c_str());
         }

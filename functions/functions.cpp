@@ -15,13 +15,14 @@ bool ValidGuess(string guess){
 }
 
 bool ExistInSecretWord(string guess, string secretWord){
+    
     return secretWord.find(guess) != string::npos ? true : false; 
 }
 
 void UpdateSecretWord(string guess, vector<pair<char, bool>> &outputVector){
 
     for (size_t i = 0; i < outputVector.size(); i++){
-        if (outputVector.at(i).first == *guess.c_str()){
+        if (tolower(outputVector.at(i).first) == tolower(*guess.c_str())){
             outputVector.at(i).second = true;
         }
 
@@ -72,7 +73,7 @@ void UpdateDisplay(string guess, vector<pair<char, bool>> &outputVector, vector<
         }
     }
     if (errorVector.size() > 0){
-        cout << "\t\t Letras erradas: ";
+        cout << "\t\t\t Letras erradas: ";
         for (auto & e : errorVector){
             cout << e << " ";
         }
@@ -113,4 +114,13 @@ string ReadFile(ifstream &inputFile){
 int SortingRandomValue(vector<string> &stringVector){
     srand ( time(NULL) );
     return int(rand()) % stringVector.size() + 1;
+}
+
+string ToLower(string str){
+    string outputString = "";
+
+    for(char& c : str) {
+        outputString += tolower(c);
+    }
+    return outputString;
 }

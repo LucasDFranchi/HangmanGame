@@ -1,4 +1,5 @@
 #include "functions.hpp"
+#include "../graphics/hangman.hpp"
 
 /* Functions */
 void PrepareSecretWord(string secretWord, vector<pair<char, bool>> &outputVector){
@@ -52,7 +53,7 @@ bool CheckVictoryCondition(vector<pair<char, bool>> &outputVector){
 }
 
 bool CheckDefeatCondition(vector<char> &errorVector){
-    const int maxWrongGuessCount = 5; 
+    const int maxWrongGuessCount = 8; 
 
     return errorVector.size() > maxWrongGuessCount;
 }
@@ -80,7 +81,9 @@ void UpdateDisplay(string guess, vector<pair<char, bool>> &outputVector, vector<
     }
 
     cout << endl;
+    DrawHangman(errorVector.size());
     cout << "Digite seu chute [a-z][A-Z]: "; 
+
 }
 
 void InformError(string errorString){
@@ -113,7 +116,7 @@ string ReadFile(ifstream &inputFile){
 
 int SortingRandomValue(vector<string> &stringVector){
     srand ( time(NULL) );
-    return int(rand()) % stringVector.size() + 1;
+    return int(rand()) % stringVector.size();
 }
 
 string ToLower(string str){
